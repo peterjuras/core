@@ -3,12 +3,10 @@
   "name": "GoDaddy",
   "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/godaddy",
-  "requirements": [],
+  "requirements": ["tldextract==3.1.0"],
   "ssdp": [],
   "zeroconf": [],
   "homekit": {},
   "dependencies": [],
-  "codeowners": [
-    "@peterjuras"
-  ]
+  "codeowners": ["@peterjuras"]
 }

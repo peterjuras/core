@@ -11,10 +11,10 @@
         "step": {
             "user": {
                 "data": {
-                    "host": "Host",
-                    "password": "Password",
-                    "username": "Username"
-                }
+                    "api_key": "GoDaddy API Key",
+                    "api_secret": "GoDaddy API Secret"
+                },
+                "description": "Visit https://developer.godaddy.com/keys and create a new API Key for the production environment, then enter your API Key and Secret."
             }
         }
     },

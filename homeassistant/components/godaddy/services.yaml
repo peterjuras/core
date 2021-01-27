@@ -1,0 +1,6 @@
+update_dns_record:
+  description: Updates the A DNS record for a domain that is registered in your GoDaddy account to your current external IP address.
+  fields:
+    domain:
+      description: The identifier to your domain or sub-domain that should be updated.
+      example: home.yourdomain.com

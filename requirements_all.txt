@@ -2189,6 +2189,9 @@ thingspeak==1.0.0
 # homeassistant.components.tikteck
 tikteck==0.4
 
+# homeassistant.components.godaddy
+tldextract==3.1.0
+
 # homeassistant.components.tmb
 tmb==0.0.4
 

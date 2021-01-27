@@ -1075,6 +1075,9 @@ tesla-powerwall==0.3.3
 # homeassistant.components.tesla
 teslajsonpy==0.10.4
 
+# homeassistant.components.godaddy
+tldextract==3.1.0
+
 # homeassistant.components.toon
 toonapi==0.2.0
 
