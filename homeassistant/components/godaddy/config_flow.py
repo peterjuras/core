@@ -1,8 +1,6 @@
 """Config flow for GoDaddy integration."""
 
-# TODO: Continue with setting up service to update DNS records for a domain
-
-from homeassistant.components.godaddy import GoDaddyAPI, InvalidAuth
+from . import GoDaddyAPI, InvalidAuth
 import voluptuous as vol
 
 from homeassistant import config_entries, core, exceptions
