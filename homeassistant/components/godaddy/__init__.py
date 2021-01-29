@@ -31,11 +31,7 @@ class GoDaddyAPI:
         if domains_request.status != 200:
             raise InvalidAuth
 
-    async def updateARecord(self, domain: str, ip: str) -> None:
-        # split subdomain and domain name
-        domain_parts = tldextract.extract(domain)
-        registered_domain_name = domain_parts.registered_domain
-        subdomain = domain_parts.subdomain
+    async def updateARecord(self, registered_domain_name: str, subdomain: str, ip: str) -> None:
         if not subdomain:
             subdomain = "@"
 
@@ -52,8 +48,9 @@ class GoDaddyAPI:
         if put_a_record_request.status != 200:
             put_a_record_response = await put_a_record_request.text()
             LOGGER.error(
-                "Error updating A record for domain: %s - Error: %s",
-                domain,
+                "Error updating A record for domain: %s%s - Error: %s",
+                subdomain,
+                registered_domain_name,
                 put_a_record_response,
             )
         else:
@@ -75,7 +72,7 @@ async def get_external_ip(session: aiohttp.ClientSession) -> str:
 
 
 async def update_dns_record(
-    godaddyAPI: GoDaddyAPI, session: aiohttp.ClientSession, domain: str
+    hass: HomeAssistant, godaddyAPI: GoDaddyAPI, session: aiohttp.ClientSession, domain: str
 ) -> None:
     if domain is None:
         LOGGER.error(
@@ -89,8 +86,13 @@ async def update_dns_record(
     # Get external IP
     external_ip = await get_external_ip(session)
 
+    # split subdomain and domain name
+    domain_parts = await hass.async_add_executor_job(tldextract.extract, domain)
+    registered_domain_name = domain_parts.registered_domain
+    subdomain = domain_parts.subdomain
+
     # Update DNS record for domain
-    await godaddyAPI.updateARecord(domain, external_ip)
+    await godaddyAPI.updateARecord(registered_domain_name, subdomain, external_ip)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
@@ -106,6 +108,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     async def handle_update_dns_record(call):
         await update_dns_record(
+            hass,
             godaddyAPI,
             aiohttp_client.async_get_clientsession(hass),
             call.data.get(ATTR_DOMAIN),
